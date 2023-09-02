@@ -1,4 +1,4 @@
-name: deploymnet-workflow
+name: ph3-lab-deploy-S3
 
 on:
   workflow_call:
