@@ -1,4 +1,4 @@
-name: deploymnet-workflow
+name: common-jobs
 
 jobs:
   workflow_authorization:
