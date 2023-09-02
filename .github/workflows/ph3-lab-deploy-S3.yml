@@ -8,38 +8,47 @@ on:
         type: string
 
 jobs:
-  build:
-    name: build
+  workflow_authorization:
+    name: workflow_authorization
     runs-on: ubuntu-latest
-    steps:
-      - name: Build
-        run: echo Hello, ${{ inputs.username }}
-      - name: Test
-        run: |
-          echo Diret ${{ secrets.ORG_A }}
-          if [[ $env.ORG_A == 'ORG' ]]
-          then
-            echo "This is the PROD password!"
-          else
-            echo "This is NOT the PROD password!"
-          fi
-        env:
-          ORG_A: ${{ secrets.ORG_TEST }}
-        
-  deploy:
-    name: deploy
-    runs-on: ubuntu-latest
-    needs: build
-    
     steps:
        - name: check user permission
          uses: 74th/workflow-permission-action@1.0.0
          with:
            users: vikramk20
+           
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    needs: workflow_authorization
+    steps:
+      - name: echo
+        run: echo Hello, ${{ inputs.username }}
+      - name: Test Secrets
+        run: |
+          echo Hello, "$ORG"
+          if [ "$ORG" == "ORG" ]
+          then
+            echo "aaa"
+          fi
+        env:
+          ORG: ${{ secrets.ORG_TEST }}
+
+  workflow_approval:
+    name: workflow_approval
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
        - uses: trstringer/manual-approval@v1
          with:
            secret: ${{ github.token }}
-           approvers: vikramk20   
+           approvers: vikramk20 
+
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    needs: workflow_approval
+    steps:
        - name: Deploy
          run: echo Hello, ${{ inputs.username }}
   
