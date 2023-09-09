@@ -39,10 +39,10 @@ jobs:
           npm run build-lab
           cd ../
           
-      - name: Display build files
+      - name: Display ph3 lab build files
         run: ls -R
 
-      - name: Upload artifact
+      - name: Upload ph3 lab artifact
         uses: actions/upload-artifact@master
         with:
           name: ph3-lab
@@ -54,13 +54,13 @@ jobs:
     needs: build
     
     steps:
-    - name: Download landing page artifact
+    - name: Download ph3 lab artifact
       uses: actions/download-artifact@v2
       with:
-        name: web-app-dist
-        path: ./aaa
+        name: ph3-lab
+        path: ./ph3-lab
 
-    - name: Display structure of downloaded files
+    - name: Display downloaded ph3 lab files
       run: ls -R
       
     - name: Set AWS credentials
@@ -71,5 +71,5 @@ jobs:
           aws-region: ap-south-1
           
     - name: Sync files to S3 bucket
-      run: aws s3 cp aaa s3://testgithubvlabs/test --recursive
+      run: aws s3 cp ph3-lab s3://testgithubvlabs/test --recursive
  
