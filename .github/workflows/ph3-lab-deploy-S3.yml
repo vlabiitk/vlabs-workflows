@@ -40,7 +40,7 @@ jobs:
           cd ph3-lab-mgmt
           ls
           npm install
-          npm run build-lab ../
+          npm run build-lab
           ls
           cd ../
           ls
