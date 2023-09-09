@@ -77,6 +77,8 @@ jobs:
 
     - name: Display S3 folder name
       run: echo ${{ needs.build.outputs.baseurl }}
+           s3folder = echo ${{ needs.build.outputs.baseurl }} | cut -d "." -f 1
+           echo $s3folder
       
     - name: Set AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
