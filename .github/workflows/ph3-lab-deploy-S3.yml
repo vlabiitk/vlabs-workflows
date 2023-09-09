@@ -40,7 +40,7 @@ jobs:
           cd ../
           
       - name: Display ph3 lab build files
-        run: ls -R
+        run: ls -R build-lab
 
       - name: Upload ph3 lab artifact
         uses: actions/upload-artifact@master
@@ -61,7 +61,7 @@ jobs:
         path: ./ph3-lab
 
     - name: Display downloaded ph3 lab files
-      run: ls -R
+      run: ls -R ph3-lab
       
     - name: Set AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
