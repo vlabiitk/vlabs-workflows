@@ -46,7 +46,7 @@ jobs:
       - name: Get S3 folder name from lab descriptor
         id: get-s3-folder
         run: |
-          s3_folder=$( lab-descriptor.json | jq '.baseUrl' )
+          s3_folder=$( jq '.baseUrl' lab-descriptor.json )
           echo "::set-output name=s3_folder::$s3_folder"
           echo $s3_folder
           
