@@ -40,7 +40,7 @@ jobs:
           cd ../
           
       - name: Display ph3 lab build files
-        run: ls -R build-lab
+        run: ls -R build
 
       - name: Upload ph3 lab artifact
         uses: actions/upload-artifact@master
