@@ -44,6 +44,7 @@ jobs:
           ls
           cd ../
           ls
+          ls build/
         env:
           ORG: ${{ secrets.ORG_TEST }}
 
