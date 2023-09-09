@@ -47,7 +47,8 @@ jobs:
         id: get-s3-folder
         run: |
           s3_folder=$( jq '.baseUrl' lab-descriptor.json )
-          echo "::set-output name=s3_folder::$s3_folder"
+          #echo "::set-output name=s3_folder::$s3_folder"
+          echo "{s3_folder}={$s3_folder}" >> $GITHUB_OUTPUT
           echo $s3_folder
           
       - name: Upload ph3 lab artifact
