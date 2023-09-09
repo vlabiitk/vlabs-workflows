@@ -21,7 +21,8 @@ jobs:
     name: Ph3 lab build
     runs-on: ubuntu-latest
     needs: workflow_authorization
-    
+    outputs:
+      s3_folder: ${{ steps.get-s3-folder.outputs.s3_folder }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -42,6 +43,13 @@ jobs:
       - name: Display ph3 lab build files
         run: ls -R build
 
+      - name: Get S3 folder name from lab descriptor
+        id: get-s3-folder
+        run: |
+          s3_folder=$( lab-descriptor.json | jq '.baseUrl' )
+          echo "::set-output name=s3_folder::$s3_folder"
+          echo $s3_folder
+          
       - name: Upload ph3 lab artifact
         uses: actions/upload-artifact@master
         with:
@@ -62,6 +70,9 @@ jobs:
 
     - name: Display downloaded ph3 lab files
       run: ls -R ph3-lab
+
+    - name: Display S3 folder name
+      run: echo ${{ needs.build.outputs.s3_folder }}
       
     - name: Set AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
