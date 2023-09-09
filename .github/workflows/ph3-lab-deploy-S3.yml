@@ -22,31 +22,29 @@ jobs:
     runs-on: ubuntu-latest
     needs: workflow_authorization
     steps:
-      - name: echo
-        run: echo Hello, ${{ inputs.username }}
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Node  
+        uses: actions/setup-node@v3
         with:
           node-version: 12
-      - name: Test Secrets
+          
+      - name: build ph3 lab
         run: |
-          echo Hello, "$ORG"
-          ls
-          if [ "$ORG" == "ORG" ]
-          then
-            echo "aaa"
-          fi
           git clone --depth=1 https://github.com/virtual-labs/ph3-lab-mgmt
           cd ph3-lab-mgmt
-          ls
           npm install
           npm run build-lab
-          ls
           cd ../
-          ls
-          ls build/
-        env:
-          ORG: ${{ secrets.ORG_TEST }}
+      - name: Display build files
+        run: ls -R
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: build
+          path: './'
 
   deploy:
     name: deploy
