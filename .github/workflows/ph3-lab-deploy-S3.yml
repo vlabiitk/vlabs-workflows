@@ -11,6 +11,8 @@ jobs:
   workflow_authorization:
     name: workflow_authorization
     runs-on: ubuntu-latest
+    outputs:
+      s3_folder: ${{ steps.get-s3-folder.outputs.s3_folder }}
     steps:
        - name: check user permission
          uses: 74th/workflow-permission-action@1.0.0
@@ -48,6 +50,7 @@ jobs:
           
           echo "s3_folder=$s3_folder" >> $GITHUB_OUTPUT
           echo $s3_folder
+          echo "s3_folder=$s3_folder"
           
       - name: Upload ph3 lab artifact
         uses: actions/upload-artifact@master
