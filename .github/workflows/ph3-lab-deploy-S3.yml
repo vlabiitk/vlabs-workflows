@@ -18,9 +18,10 @@ jobs:
            users: vikramk20
            
   build:
-    name: build
+    name: Ph3 lab build
     runs-on: ubuntu-latest
     needs: workflow_authorization
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -30,7 +31,7 @@ jobs:
         with:
           node-version: 12
           
-      - name: build ph3 lab
+      - name: Build ph3 lab
         run: |
           git clone --depth=1 https://github.com/virtual-labs/ph3-lab-mgmt
           cd ph3-lab-mgmt
@@ -48,9 +49,27 @@ jobs:
           path: './build'
 
   deploy:
-    name: deploy
+    name: Deploy to S3
     runs-on: ubuntu-latest
+    needs: build
+    
     steps:
-       - name: Deploy
-         run: echo Hello, ${{ inputs.username }}
-  
+    - name: Download landing page artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: web-app-dist
+        path: ./aaa
+
+    - name: Display structure of downloaded files
+      run: ls -R
+      
+    - name: Set AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+          aws-access-key-id: ${{ secrets.AWS_PROD_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_PROD_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+          
+    - name: Sync files to S3 bucket
+      run: aws s3 cp aaa s3://testgithubvlabs/test --recursive
+ 
