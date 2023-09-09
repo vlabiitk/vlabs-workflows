@@ -37,14 +37,15 @@ jobs:
           npm install
           npm run build-lab
           cd ../
+          
       - name: Display build files
         run: ls -R
 
       - name: Upload artifact
         uses: actions/upload-artifact@master
         with:
-          name: build
-          path: './'
+          name: ph3-lab
+          path: './build'
 
   deploy:
     name: deploy
