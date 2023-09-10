@@ -92,5 +92,5 @@ jobs:
       run: |
         s3folder=$( echo ${{ needs.build.outputs.baseurl }} | cut -d "." -f 1 )
         echo $s3folder
-        aws s3 sync ph3-lab s3://testgithubvlabs/$s3folder --recursive
+        aws s3 sync ph3-lab s3://testgithubvlabs/$s3folder --detele
  
