@@ -90,7 +90,7 @@ jobs:
           
     - name: Sync files to S3 bucket
       run: |
-        s3folder = echo ${{ needs.build.outputs.baseurl }} | cut -d "." -f 1
+        s3folder=$( echo ${{ needs.build.outputs.baseurl }} | cut -d "." -f 1 )
         echo $s3folder
         aws s3 cp ph3-lab s3://testgithubvlabs/$s3folder --recursive
  
