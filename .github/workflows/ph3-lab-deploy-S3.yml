@@ -103,8 +103,8 @@ jobs:
       run: |
         s3folder=$( echo ${{ needs.build.outputs.baseurl }} | cut -d "." -f 1 )
         echo $s3folder
-        phase=$( echo ${{ needs.build.outputs.phase }}
-        code=$( echo ${{ needs.build.outputs.code }}
+        phase=$( echo ${{ needs.build.outputs.phase }} )
+        code=$( echo ${{ needs.build.outputs.code }} )
         echo $phase
         echo $code
         s3Bucket="default.ph3.vlabs.ac.in"
@@ -112,5 +112,5 @@ jobs:
           s3Bucket="cse-ece-mech.ph3-ext.vlabs.ac.in"
         fi  
         echo $s3Bucket
-        aws s3 sync ph3-lab s3://testgithubvlabs/$s3folder --delete
+        #aws s3 sync ph3-lab s3://testgithubvlabs/$s3folder --delete
  
