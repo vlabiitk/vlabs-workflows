@@ -108,7 +108,7 @@ jobs:
         echo $phase
         echo $code
         s3Bucket="default.ph3.vlabs.ac.in"
-        if [ $phase == "3-ext" ] && [ $code == "CSC" ]; then
+        if [ $phase == "3-ext" ] && [ $code == "CSC" || $code == "ECE" || $code == "MECH" ]; then
           s3Bucket="cse-ece-mech.ph3-ext.vlabs.ac.in"
         fi  
         echo $s3Bucket
