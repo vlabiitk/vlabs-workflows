@@ -53,7 +53,6 @@ jobs:
           baseurl=$( jq '.baseUrl' lab-descriptor.json )
           
           echo "baseurl=$baseurl" >> $GITHUB_OUTPUT
-          echo $baseurl
           echo "baseurl=$baseurl"
           
       - name: Get code and phase from lab descriptor
@@ -63,8 +62,7 @@ jobs:
           code=$( jq '.broadArea.code' lab-descriptor.json )
           echo "phase=$phase" >> $GITHUB_OUTPUT
           echo "code=$code" >> $GITHUB_OUTPUT
-          echo $phase
-          echo $code
+          echo "phase=$phase"
           echo "code=$code"
           
       - name: Upload ph3 lab artifact
