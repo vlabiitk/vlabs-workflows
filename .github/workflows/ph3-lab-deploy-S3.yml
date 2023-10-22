@@ -25,6 +25,8 @@ jobs:
     needs: workflow_authorization
     outputs:
       baseurl: ${{ steps.get_baseurl.outputs.baseurl }}
+      phase: ${{ steps.get_phase_code.outputs.phase }}
+      code: ${{ steps.get_phase_code.outputs.code }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -45,7 +47,7 @@ jobs:
       - name: Display ph3 lab build files
         run: ls -R build
 
-      - name: Get build url from lab descriptor
+      - name: Get base url from lab descriptor
         id: get_baseurl
         run: |
           baseurl=$( jq '.baseUrl' lab-descriptor.json )
@@ -53,6 +55,17 @@ jobs:
           echo "baseurl=$baseurl" >> $GITHUB_OUTPUT
           echo $baseurl
           echo "baseurl=$baseurl"
+          
+      - name: Get code and phase from lab descriptor
+        id: get_phase_code
+        run: |
+          phase=$( jq '.phase' lab-descriptor.json )
+          code=$( jq '.broadArea.code' lab-descriptor.json )
+          echo "phase=$phase" >> $GITHUB_OUTPUT
+          echo "code=$code" >> $GITHUB_OUTPUT
+          echo $phase
+          echo $code
+          echo "code=$code"
           
       - name: Upload ph3 lab artifact
         uses: actions/upload-artifact@master
