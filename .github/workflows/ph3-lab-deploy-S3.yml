@@ -8,14 +8,10 @@ jobs:
     name: workflow_authorization
     runs-on: ubuntu-latest
     steps:
-       - name: Read the file in the reusable workflow directory
-         run: |
-          cat "${{ github.workspace }}/.workflows/my_file.txt"
-          
        - name: check user permission
          uses: 74th/workflow-permission-action@1.0.0
          with:
-           listfile: virtual-labs/vlabs-workflows/.github/workflows/user@@main
+           users:: vikramk20
            
   build:
     name: Ph3 lab build
