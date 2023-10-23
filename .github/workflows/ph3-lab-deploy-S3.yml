@@ -7,8 +7,6 @@ jobs:
   workflow_authorization:
     name: workflow_authorization
     runs-on: ubuntu-latest
-    outputs:
-      s3_folder: ${{ steps.get-s3-folder.outputs.s3_folder }}
     steps:
        - name: check user permission
          uses: 74th/workflow-permission-action@1.0.0
