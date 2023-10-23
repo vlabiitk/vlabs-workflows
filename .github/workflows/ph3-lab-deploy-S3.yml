@@ -2,10 +2,6 @@ name: ph3-lab-deploy-S3
 
 on:
   workflow_call:
-    inputs:
-      username:
-        required: true
-        type: string
 
 jobs:
   workflow_authorization:
