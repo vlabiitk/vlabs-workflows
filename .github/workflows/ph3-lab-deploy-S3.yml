@@ -29,10 +29,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 12
-          
+        
       - name: Build ph3 lab
         run: |
-          git clone --depth=1 https://github.com/virtual-labs/ph3-lab-mgmt@staging-fix
+          git clone --depth=1 -b staging-fix https://github.com/virtual-labs/ph3-lab-mgmt
           cd ph3-lab-mgmt
           npm install
           npm run build-lab
