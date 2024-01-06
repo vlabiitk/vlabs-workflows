@@ -1,0 +1,99 @@
+name: test-ph3-lab
+
+on:
+  workflow_call:
+
+jobs:          
+  build:
+    name: Ph3 lab build
+    runs-on: ubuntu-latest
+    needs: workflow_authorization
+    outputs:
+      baseurl: ${{ steps.get_baseurl.outputs.baseurl }}
+      phase: ${{ steps.get_phase_code.outputs.phase }}
+      code: ${{ steps.get_phase_code.outputs.code }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Node  
+        uses: actions/setup-node@v3
+        with:
+          node-version: 12
+        
+      - name: Build ph3 lab
+        run: |
+          git clone --depth=1 -b staging-fix https://github.com/virtual-labs/ph3-lab-mgmt
+          cd ph3-lab-mgmt
+          npm install
+          npm run build-lab
+          cd ../
+          
+      - name: Display ph3 lab build files
+        run: ls -R build
+
+      - name: Get base url from lab descriptor
+        id: get_baseurl
+        run: |
+          baseurl=$( jq '.baseUrl' lab-descriptor.json )
+          
+          echo "baseurl=$baseurl" >> $GITHUB_OUTPUT
+          echo "baseurl=$baseurl"
+          
+      - name: Get code and phase from lab descriptor
+        id: get_phase_code
+        run: |
+          phase=$( jq '.phase' lab-descriptor.json )
+          code=$( jq '.broadArea.code' lab-descriptor.json )
+          echo "phase=$phase" >> $GITHUB_OUTPUT
+          echo "code=$code" >> $GITHUB_OUTPUT
+          echo "phase=$phase"
+          echo "code=$code"
+          
+      - name: Upload ph3 lab artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: ph3-lab
+          path: './build'
+
+  deploy:
+    name: Deploy to S3
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+    - name: Download ph3 lab artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: ph3-lab
+        path: ./ph3-lab
+
+    - name: Display downloaded ph3 lab files
+      run: ls -R ph3-lab
+
+    - name: Display S3 folder name
+      run: |
+        echo ${{ needs.build.outputs.baseurl }}
+        s3folder=$( echo ${{ needs.build.outputs.baseurl }} | cut -d "." -f 1 )
+        echo $s3folder
+      
+    - name: Set AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+          aws-access-key-id: ${{ secrets.AWS_PROD_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_PROD_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+          
+    - name: Sync files to S3 bucket
+      run: |
+        s3folder=$( echo ${{ needs.build.outputs.baseurl }} | cut -d "." -f 1 )
+        echo $s3folder
+        phase=$( echo ${{ needs.build.outputs.phase }} )
+        code=$( echo ${{ needs.build.outputs.code }} )
+        echo $phase
+        echo $code
+        s3Bucket="default.tes.vlabs.ac.in"
+          
+        echo $s3Bucket
+        aws s3 sync ph3-lab s3://$s3Bucket/$s3folder --delete
+ 
