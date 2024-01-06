@@ -52,7 +52,7 @@ jobs:
       - name: Upload ph3 lab artifact
         uses: actions/upload-artifact@master
         with:
-          name: ph3-lab
+          name: test-ph3-lab
           path: './build'
 
   deploy:
@@ -64,11 +64,11 @@ jobs:
     - name: Download ph3 lab artifact
       uses: actions/download-artifact@v2
       with:
-        name: ph3-lab
-        path: ./ph3-lab
+        name: test-ph3-lab
+        path: ./test-ph3-lab
 
     - name: Display downloaded ph3 lab files
-      run: ls -R ph3-lab
+      run: ls -R test-ph3-lab
 
     - name: Display S3 folder name
       run: |
