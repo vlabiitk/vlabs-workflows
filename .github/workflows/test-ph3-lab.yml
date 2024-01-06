@@ -1,4 +1,4 @@
-name: ph3-lab-deploy-S3
+name: test-ph3-lab
 
 on:
   workflow_call:
