@@ -50,7 +50,7 @@ jobs:
           echo "code=$code"
           
       - name: Upload ph3 lab artifact
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v4
         with:
           name: test-lab
           path: './build'
@@ -62,7 +62,7 @@ jobs:
     
     steps:
     - name: Download ph3 lab artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4
       with:
         name: test-lab
         path: ./test-lab
