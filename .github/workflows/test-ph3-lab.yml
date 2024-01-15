@@ -25,7 +25,7 @@ jobs:
           git clone --depth=1 -b staging-fix https://github.com/virtual-labs/ph3-lab-mgmt
           cd ph3-lab-mgmt
           npm install
-          npm run build-lab
+          npm run build-lab --disableAnalytics --env=local
           cd ../
           
       - name: Display ph3 lab build files
