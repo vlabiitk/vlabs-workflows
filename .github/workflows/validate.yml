@@ -24,6 +24,6 @@ jobs:
       - name: Running Lint Command
         run: |
           echo 'Linting code...'
-          npm i @virtual-labs/buildexp@latest
-          npx @virtual-labs/buildexp validate
+          #npm i @virtual-labs/buildexp@latest
+          npx @virtual-labs/buildexp@latest validate
           echo 'Linting Completed..'
