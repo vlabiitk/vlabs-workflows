@@ -72,7 +72,7 @@ jobs:
     
     steps:
     - name: Download ph3 lab artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4.1.7
       with:
         name: ph3-lab
         path: ./ph3-lab
